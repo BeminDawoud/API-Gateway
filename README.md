@@ -20,13 +20,13 @@ This project is an API Gateway designed to manage and control API requests. It i
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/api-gateway.git
+   git clone https://github.com/BeminDawoud/API-Gateway.git
    ```
 
 2. Navigate into the project directory:
 
    ```bash
-   cd api-gateway
+   cd API-Gateway
    ```
 
 3. Install the dependencies:
