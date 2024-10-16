@@ -1,1 +1,13 @@
-{"services":{"api":{"apiName":"api","host":"http://localhost","port":5000,"url":"http://localhost:5000/"},"regapi":{"apiName":"regapi","host":"http://localhost","port":3001,"url":"http://localhost:3001/"}}}
+{
+    "services": {
+        "api": [
+            {
+                "apiName": "api",
+                "protocol": "http",
+                "host": "localhost",
+                "port": 5001,
+                "url": "http://localhost:5001/"
+            }
+        ]
+    }
+}

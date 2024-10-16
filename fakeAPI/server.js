@@ -1,8 +1,8 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const HOST = "http://localhost";
-const PORT = 5000;
+const HOST = "localhost";
+const PORT = 5001;
 app.use(express.json());
 
 app.get("/fakeapi", (req, res, next) => {
@@ -70,9 +70,9 @@ app.listen(PORT, () => {
     headers: "Content-Type: application/json",
     data: {
       apiName: "api",
+      protocol: "http",
       host: HOST,
       port: PORT,
-      url: HOST + ":" + PORT + "/",
     },
   })
     .then((response) => {
