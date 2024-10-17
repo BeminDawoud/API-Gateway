@@ -54,7 +54,7 @@ Ensure that you have the following installed:
    ```bash
    npm install
    ```
-3. Start the Fake:
+3. Start the gateway:
    ```bash
    npm run dev
    ```
