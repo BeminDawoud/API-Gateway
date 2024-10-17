@@ -1,7 +1,6 @@
 {
     "services": {
         "api": {
-            "loadBalanceStrategy": "ROUND_ROBIN",
             "index": 0,
             "instances": [
                 {
@@ -18,7 +17,8 @@
                     "port": 5002,
                     "url": "http://localhost:5002/"
                 }
-            ]
+            ],
+            "loadBalanceStrategy": "ROUND_ROBIN"
         }
     }
 }

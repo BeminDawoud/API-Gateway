@@ -11,6 +11,19 @@ router.all("/:apiName/*", (req, res) => {
   const service = registry.services[req.params.apiName];
   const path = req.params[0];
 
+  if (!service.loadBalanceStrategy) {
+    service.loadBalanceStrategy = "ROUND_ROBIN";
+    fs.writeFile(
+      "./routes/registry.json",
+      JSON.stringify(registry),
+      (error) => {
+        if (error) {
+          res.send("Couldn't write load balance strategy" + error);
+        }
+      }
+    );
+  }
+
   if (service) {
     const newIndex = loadBalancer[service.loadBalanceStrategy](service);
     const url = service.instances[newIndex].url;

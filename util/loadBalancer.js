@@ -7,4 +7,9 @@ loadBalancer.ROUND_ROBIN = (service) => {
   return newIndex;
 };
 
+loadBalancer.RANDOM = (service) => {
+  const randomIndex = Math.floor(Math.random() * service.instances.length);
+  return randomIndex;
+};
+
 module.exports = loadBalancer;
