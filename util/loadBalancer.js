@@ -43,8 +43,14 @@ loadBalancer.isEnabled = (service, index, loadBalanceStrategy) => {
  * @returns {number} The index of the randomly selected instance.
  */
 loadBalancer.RANDOM = (service) => {
-  const randomIndex = Math.floor(Math.random() * service.instances.length);
-  return randomIndex;
+  const enabledInstances = service.instances.filter(
+    (instance) => instance.enabled
+  );
+  if (service.index === undefined) {
+    service.index = -1;
+  }
+  const randomIndex = Math.floor(Math.random() * enabledInstances.length);
+  return service.instances.indexOf(enabledInstances[randomIndex]);
 };
 
 module.exports = loadBalancer;

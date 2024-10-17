@@ -159,6 +159,6 @@ Both strategies work by balancing traffic across enabled instances.
   Enables or disables a specific service instance.  
   **Body parameters:** `url`, `enabled`
 
-- **GET /apiName**  
+- **ALL /apiName**  
   Forwards incoming requests to the appropriate service instance based on the load balancing strategy.
 
