@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e0f7fa; /* Lighter blue background */
+    color: #333; /* Darker text color */
+}
+
+header {
+    background-color: #00796b; /* Teal color */
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+section {
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.service {
+    background-color: white;
+    border: 1px solid #00796b; /* Border matching the header color */
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+h2 {
+    margin-top: 0;
+    color: #004d40; /* Darker teal for headings */
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.enabled {
+    color: #388e3c; /* Dark green for enabled */
+    font-weight: bold;
+}
+
+.disabled {
+    color: #d32f2f; /* Dark red for disabled */
+    font-weight: bold;
+}
+
+/* Ensure the footer stays below when the content grows */
+footer {
+    background-color: #00796b;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    position: relative; /* Changed to relative */
+    width: 100%;
+}
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+section {
+    flex: 1;
+}

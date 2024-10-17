@@ -5,6 +5,8 @@ const routes = require("./routes");
 const registry = require("./routes/registry.json");
 const PORT = 3000;
 
+app.use(express.static("public"));
+app.set("view engine", "ejs");
 app.use(express.json());
 
 // security middleware
@@ -47,6 +49,10 @@ const auth = (req, res, next) => {
     });
   }
 };
+
+app.get("/home", (req, res) => {
+  res.render("index", { services: registry.services });
+});
 
 app.use(auth);
 app.use("/", routes);

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Gateway - Services</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>API Gateway Services</h1>
+    </header>
+
+    <section>
+        <% for (let serviceName in services) { %>
+            <div class="service">
+                <h2>Service: <%= serviceName %>
+                </h2>
+                <p>Load Balancing Strategy: <%= services[serviceName].loadBalanceStrategy %>
+                </p>
+                <h3>Instances:</h3>
+                <ul>
+                    <% services[serviceName].instances.forEach((instance)=> { %>
+                        <li>
+                            <p>URL: <%= instance.url %>
+                            </p>
+                            <p>Status: <span class="<%= instance.enabled ? 'enabled' : 'disabled' %>">
+                                    <%= instance.enabled ? 'Enabled' : 'Disabled' %>
+                                </span></p>
+                        </li>
+                        <% }) %>
+                </ul>
+            </div>
+            <% } %>
+    </section>
+
+    <footer>
+        <p>API Gateway - Monitoring Dashboard</p>
+    </footer>
+</body>
+
+</html>

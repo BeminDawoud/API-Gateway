@@ -65,8 +65,9 @@ app.post("/posts", (req, res) => {
 
 app.listen(PORT, () => {
   const authString = "bemin:password";
-  const encodedAuthString = Buffer.from(authString, "utf8").toString("base64");
-  console.log(encodedAuthString);
+  const encodedAuthString =
+    "Basic " + Buffer.from(authString, "utf8").toString("base64"); // Prefix 'Basic'
+
   axios({
     method: "POST",
     url: "http://localhost:3000/register",
@@ -77,7 +78,7 @@ app.listen(PORT, () => {
     data: {
       apiName: "api",
       protocol: "http",
-      host: HOST,
+      host: HOST, // Make sure HOST is defined
       port: PORT,
     },
   })
@@ -85,7 +86,13 @@ app.listen(PORT, () => {
       console.log(response.data);
     })
     .catch((error) => {
-      console.log(error);
+      // Log error response if available
+      if (error.response) {
+        console.log(error.response.data);
+      } else {
+        console.log(error);
+      }
     });
+
   console.log(`Fake API Server is listening on Port ${PORT}`);
 });
