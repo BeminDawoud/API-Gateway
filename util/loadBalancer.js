@@ -1,6 +1,9 @@
 const loadBalancer = {};
 
 loadBalancer.ROUND_ROBIN = (service) => {
+  if (service.index === undefined) {
+    service.index = -1;
+  }
   const newIndex =
     ++service.index >= service.instances.length ? 0 : service.index;
   service.index = newIndex;

@@ -105,7 +105,13 @@ router.post("/register", (req, res) => {
         regInfo.url
     );
   } else {
-    registry.services[regInfo.apiName].instances.push({ ...regInfo });
+    if (!registry.services[regInfo.apiName]) {
+      registry.services[regInfo.apiName] = { instances: [] }; // Initialize if it doesn't exist
+    }
+    registry.services[regInfo.apiName].instances.push({
+      ...regInfo,
+      enabled: true,
+    });
     fs.writeFile(
       "./routes/registry.json",
       JSON.stringify(registry),
@@ -159,6 +165,9 @@ router.post("/unregister", (req, res) => {
 });
 
 const apiAlreadyExists = (regInfo) => {
+  if (!registry.services[regInfo.apiName]) {
+    return false; // Service doesn't exist, so API doesn't exist
+  }
   let exists = false;
   registry.services[regInfo.apiName].instances.forEach((element) => {
     if (element.url === regInfo.url) {
