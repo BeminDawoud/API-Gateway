@@ -7,6 +7,16 @@ const { error } = require("console");
 const { exit } = require("process");
 const loadBalancer = require("../util/loadBalancer");
 
+/**
+ * Enable or disable a specific API instance.
+ * @route POST /enable/:apiName
+ * @param {string} req.params.apiName - Name of the API.
+ * @param {Object} req.body - The request body containing the URL and enabled status.
+ * @param {string} req.body.url - The URL of the API instance.
+ * @param {boolean} req.body.enabled - The status to enable or disable the instance.
+ * @returns {Object} Response containing the status of the operation.
+ */
+
 router.post("/enable/:apiName", (req, res) => {
   const apiName = req.params.apiName;
   const requestBody = req.body;
@@ -53,6 +63,14 @@ router.post("/enable/:apiName", (req, res) => {
   }
 });
 
+/**
+ * Route all incoming API requests to the appropriate instance based on the load balancing strategy.
+ * @route ALL /:apiName/*
+ * @param {string} req.params.apiName - Name of the API.
+ * @param {string} req.params[0] - The path to the specific API resource.
+ * @returns {Object} The response from the requested API or an error if unavailable.
+ */
+
 router.all("/:apiName/*", (req, res) => {
   const service = registry.services[req.params.apiName];
   const path = req.params[0];
@@ -92,6 +110,17 @@ router.all("/:apiName/*", (req, res) => {
   }
 });
 
+/**
+ * Register a new API instance to the registry.
+ * @route POST /register
+ * @param {Object} req.body - The request body containing registration info.
+ * @param {string} req.body.apiName - Name of the API.
+ * @param {string} req.body.protocol - Protocol used by the API (e.g., http, https).
+ * @param {string} req.body.host - Hostname or IP address of the API.
+ * @param {number} req.body.port - Port number of the API.
+ * @returns {string} Success or error message.
+ */
+
 router.post("/register", (req, res) => {
   const regInfo = req.body;
   regInfo.url =
@@ -130,6 +159,17 @@ router.post("/register", (req, res) => {
   }
 });
 
+/**
+ * Unregister an API instance from the registry.
+ * @route POST /unregister
+ * @param {Object} req.body - The request body containing unregistration info.
+ * @param {string} req.body.apiName - Name of the API.
+ * @param {string} req.body.protocol - Protocol used by the API.
+ * @param {string} req.body.host - Hostname or IP address of the API.
+ * @param {number} req.body.port - Port number of the API.
+ * @returns {string} Success or error message.
+ */
+
 router.post("/unregister", (req, res) => {
   const regInfo = req.body;
   regInfo.url =
@@ -163,6 +203,14 @@ router.post("/unregister", (req, res) => {
     );
   }
 });
+
+/**
+ * Check if an API instance already exists in the registry.
+ * @param {Object} regInfo - Registration information of the API.
+ * @param {string} regInfo.apiName - Name of the API.
+ * @param {string} regInfo.url - Full URL of the API instance.
+ * @returns {boolean} True if the API already exists, false otherwise.
+ */
 
 const apiAlreadyExists = (regInfo) => {
   if (!registry.services[regInfo.apiName]) {

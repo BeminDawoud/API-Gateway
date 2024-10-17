@@ -12,6 +12,15 @@ app.use(express.json());
 // security middleware
 app.use(helmet());
 
+/**
+ * Middleware function to handle Basic Authentication.
+ * Extracts and verifies the username and password from the Authorization header.
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @param {Function} next - The next middleware function in the stack.
+ * @returns {Object} If authentication fails, sends a response with a status message.
+ */
+
 const auth = (req, res, next) => {
   if (
     !req.headers.authorization ||
@@ -50,6 +59,11 @@ const auth = (req, res, next) => {
   }
 };
 
+/**
+ * Route to render the home page and display the list of services.
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ */
 app.get("/home", (req, res) => {
   res.render("index", { services: registry.services });
 });

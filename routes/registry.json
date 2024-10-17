@@ -1,1 +1,34 @@
-{"services":{"api":{"instances":[{"apiName":"api","protocol":"http","host":"localhost","port":5000,"url":"http://localhost:5000/","enabled":true},{"apiName":"api","protocol":"http","host":"localhost","port":5001,"url":"http://localhost:5001/","enabled":false}],"loadBalanceStrategy":"ROUND_ROBIN","index":1}},"auth":{"users":{"bemin":{"username":"bemin","password":"password"}}}}
+{
+    "services": {
+        "api": {
+            "instances": [
+                {
+                    "apiName": "api",
+                    "protocol": "http",
+                    "host": "localhost",
+                    "port": 5000,
+                    "url": "http://localhost:5000/",
+                    "enabled": true
+                },
+                {
+                    "apiName": "api",
+                    "protocol": "http",
+                    "host": "localhost",
+                    "port": 5001,
+                    "url": "http://localhost:5001/",
+                    "enabled": false
+                }
+            ],
+            "loadBalanceStrategy": "ROUND_ROBIN",
+            "index": 1
+        }
+    },
+    "auth": {
+        "users": {
+            "bemin": {
+                "username": "bemin",
+                "password": "password"
+            }
+        }
+    }
+}
