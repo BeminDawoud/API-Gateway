@@ -7,24 +7,69 @@ const { error } = require("console");
 const { exit } = require("process");
 const loadBalancer = require("../util/loadBalancer");
 
-router.all("/:apiName/*", (req, res) => {
-  const service = registry.services[req.params.apiName];
-  const path = req.params[0];
-
-  if (!service.loadBalanceStrategy) {
-    service.loadBalanceStrategy = "ROUND_ROBIN";
+router.post("/enable/:apiName", (req, res) => {
+  const apiName = req.params.apiName;
+  const requestBody = req.body;
+  const instances = registry.services[apiName].instances;
+  const index = instances.findIndex((srv) => {
+    return srv.url === requestBody.url;
+  });
+  if (index == -1) {
+    res.send({
+      status: "error",
+      message:
+        "Could not find '" +
+        requestBody.url +
+        "' for service '" +
+        apiName +
+        "'",
+    });
+  } else {
+    instances[index].enabled = requestBody.enabled;
     fs.writeFile(
       "./routes/registry.json",
       JSON.stringify(registry),
       (error) => {
         if (error) {
-          res.send("Couldn't write load balance strategy" + error);
+          res.send(
+            "Could not enable/disable '" +
+              requestBody.url +
+              "' for service '" +
+              apiName +
+              ":'\n" +
+              error
+          );
+        } else {
+          res.send(
+            "Successfully enabled/disabled '" +
+              requestBody.url +
+              "' for service '" +
+              apiName +
+              "'\n"
+          );
         }
       }
     );
   }
+});
+
+router.all("/:apiName/*", (req, res) => {
+  const service = registry.services[req.params.apiName];
+  const path = req.params[0];
 
   if (service) {
+    if (!service.loadBalanceStrategy) {
+      service.loadBalanceStrategy = "ROUND_ROBIN";
+      fs.writeFile(
+        "./routes/registry.json",
+        JSON.stringify(registry),
+        (error) => {
+          if (error) {
+            res.send("Couldn't write load balance strategy" + error);
+          }
+        }
+      );
+    }
     const newIndex = loadBalancer[service.loadBalanceStrategy](service);
     const url = service.instances[newIndex].url;
     console.log(url);

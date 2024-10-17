@@ -2,7 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const app = express();
 const HOST = "localhost";
-const PORT = 5001;
+const PORT = 5000;
 app.use(express.json());
 
 app.get("/fakeapi", (req, res, next) => {
