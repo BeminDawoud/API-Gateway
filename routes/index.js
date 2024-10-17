@@ -5,15 +5,19 @@ const registry = require("./registry.json");
 const fs = require("fs");
 const { error } = require("console");
 const { exit } = require("process");
+const loadBalancer = require("../util/loadBalancer");
 
 router.all("/:apiName/*", (req, res) => {
-  const { apiName } = req.params;
-  const path = req.params[0]; // Capture everything after /:apiName/
+  const service = registry.services[req.params.apiName];
+  const path = req.params[0];
 
-  if (registry.services[apiName]) {
+  if (service) {
+    const newIndex = loadBalancer[service.loadBalanceStrategy](service);
+    const url = service.instances[newIndex].url;
+    console.log(url);
     axios({
       method: req.method,
-      url: `${registry.services[apiName].url}${path}`,
+      url: url + path,
       data: req.body, // Forward the request body
       headers: req.headers, // Forward the request headers
     })
@@ -43,7 +47,7 @@ router.post("/register", (req, res) => {
         regInfo.url
     );
   } else {
-    registry.services[regInfo.apiName].push({ ...regInfo });
+    registry.services[regInfo.apiName].instances.push({ ...regInfo });
     fs.writeFile(
       "./routes/registry.json",
       JSON.stringify(registry),
@@ -68,10 +72,12 @@ router.post("/unregister", (req, res) => {
     regInfo.protocol + "://" + regInfo.host + ":" + regInfo.port + "/";
 
   if (apiAlreadyExists(regInfo)) {
-    const index = registry.services[regInfo.apiName].findIndex((instance) => {
-      return regInfo.url === instance.url;
-    });
-    registry.services[regInfo.apiName].splice(index, 1);
+    const index = registry.services[regInfo.apiName].instances.findIndex(
+      (instance) => {
+        return regInfo.url === instance.url;
+      }
+    );
+    registry.services[regInfo.apiName].instances.splice(index, 1);
     fs.writeFile(
       "./routes/registry.json",
       JSON.stringify(registry),
@@ -96,7 +102,7 @@ router.post("/unregister", (req, res) => {
 
 const apiAlreadyExists = (regInfo) => {
   let exists = false;
-  registry.services[regInfo.apiName].forEach((element) => {
+  registry.services[regInfo.apiName].instances.forEach((element) => {
     if (element.url === regInfo.url) {
       exists = true;
       return;
