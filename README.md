@@ -46,7 +46,7 @@ Ensure that you have the following installed:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/api-gateway.git
+   git clone https://github.com/BeminDawoud/API-Gateway.git
    cd api-gateway
    ```
 
@@ -63,13 +63,14 @@ Ensure that you have the following installed:
 ## Project Structure
 
 ```bash
+├── fakeAPI/              # A simple API server to test with teh gateway
 ├── public/               # Static files (CSS, images)
 ├── routes/               # API routes and registry configuration
 │   ├── index.js          # Main API routes
 │   ├── registry.json     # Registered services
 ├── util/                 # Utility functions (load balancers)
 ├── views/                # EJS view templates
-├── app.js                # Main Express server setup
+├── gateway.js            # Main Express server setup for gateway
 ├── README.md             # Project documentation
 └── package.json          # Project metadata and dependencies
 ```
