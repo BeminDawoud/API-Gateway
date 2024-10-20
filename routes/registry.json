@@ -9,34 +9,14 @@
                     "port": 5000,
                     "url": "http://localhost:5000/",
                     "enabled": true
-                },
-                {
-                    "apiName": "api",
-                    "protocol": "http",
-                    "host": "localhost",
-                    "port": 5001,
-                    "url": "http://localhost:5001/",
-                    "enabled": false
-                },
-                {
-                    "apiName": "api",
-                    "protocol": "http",
-                    "host": "localhost",
-                    "port": 5005,
-                    "url": "http://localhost:5005/",
-                    "enabled": false
-                },
-                {
-                    "apiName": "api",
-                    "protocol": "http",
-                    "host": "localhost",
-                    "port": 5006,
-                    "url": "http://localhost:5006/",
-                    "enabled": true
                 }
             ],
+            "rateLimit": {
+                "windowMs": 10000,
+                "maxRequests": 100
+            },
             "loadBalanceStrategy": "ROUND_ROBIN",
-            "index": 1
+            "index": 0
         }
     },
     "auth": {
@@ -45,6 +25,12 @@
                 "username": "bemin",
                 "password": "password"
             }
+        }
+    },
+    "rateLimits": {
+        "api": {
+            "requests": 100,
+            "startTime": 1729382940318
         }
     }
 }

@@ -15,7 +15,8 @@ This project is an **API Gateway** built with Node.js, Express, and EJS, providi
     - [2. Load Balancing](#2-load-balancing)
     - [3. Service Enabling/Disabling](#3-service-enablingdisabling)
     - [4. Authentication](#4-authentication)
-    - [Authentication Implementation](#authentication-implementation)
+    - [5. Rate Limiting](#5-rate-limiting)
+    - [Testing the Rate Limiting Functionality](#testing-the-rate-limiting-functionality)
   - [Load Balancing Strategies](#load-balancing-strategies)
     - [1. Round Robin](#1-round-robin)
       - [2. Random](#2-random)
@@ -31,7 +32,7 @@ This project is an **API Gateway** built with Node.js, Express, and EJS, providi
 - **Basic Authentication:** Protects routes with user-based authentication.
 - **Dynamic Routing:** Routes API requests to the registered services based on the load balancing strategy.
 - **Service Monitoring:** Provides a dashboard displaying registered services.
-
+- **Rate Limiting:** Introduced rate limiting to control the number of requests a user can make to an API within a specified time window, preventing abuse and ensuring fair usage.
 ---
 
 ## Getting Started
@@ -127,9 +128,21 @@ Basic authentication is required for accessing routes. The `Authorization` heade
 ```bash
 curl -H "Authorization: Basic dXNlcjpwYXNz" http://localhost:3000/home
 ```
-### Authentication Implementation
+**Authentication Implementation**
 
 Basic Authentication secures API access. Credentials are checked against the `registry.json` file, which contains a list of users and passwords.
+
+
+### 5. Rate Limiting
+### Testing the Rate Limiting Functionality
+
+To test the rate limiting functionality, you can use the following `curl` command to overload the requests:
+
+```bash
+curl --location 'http://localhost:3000/api/users/1' \
+--header 'Authorization: Basic ************'
+```
+you can run this command multiple times through a loop in a bash script or what ever tool you like to see the rate limiting in action, receiving a 429 Too Many Requests response after exceeding the limit.
 
 ## Load Balancing Strategies
 

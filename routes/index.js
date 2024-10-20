@@ -6,6 +6,8 @@ const fs = require("fs");
 const { error } = require("console");
 const { exit } = require("process");
 const loadBalancer = require("../util/loadBalancer");
+const rateLimiter = require("../util/rate-limit");
+const rateLimits = {};
 
 /**
  * Enable or disable a specific API instance.
@@ -71,7 +73,7 @@ router.post("/enable/:apiName", (req, res) => {
  * @returns {Object} The response from the requested API or an error if unavailable.
  */
 
-router.all("/:apiName/*", (req, res) => {
+router.all("/:apiName/*", rateLimiter, (req, res) => {
   const service = registry.services[req.params.apiName];
   const path = req.params[0];
 
@@ -135,7 +137,13 @@ router.post("/register", (req, res) => {
     );
   } else {
     if (!registry.services[regInfo.apiName]) {
-      registry.services[regInfo.apiName] = { instances: [] }; // Initialize if it doesn't exist
+      registry.services[regInfo.apiName] = {
+        instances: [],
+        rateLimit: {
+          windowMs: 10000,
+          maxRequests: 100,
+        },
+      };
     }
     registry.services[regInfo.apiName].instances.push({
       ...regInfo,
