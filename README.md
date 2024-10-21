@@ -1,6 +1,6 @@
 # API Gateway Project
 
-This project is an **API Gateway** built with Node.js, Express, and EJS, providing load balancing, service registration, and routing functionality. It enables clients to register APIs, balances traffic using various load-balancing strategies, and includes authentication to secure access.
+This project is an **API Gateway** built with Node.js, Express, and axios, providing load balancing, service registration, and routing functionality. It enables clients to register APIs, balances traffic using various load-balancing strategies, sets limits on API requests based on their needs to prevent the service from being overwhelmed by a large volume of requests,and it also includes authentication to secure access.
 
 ## Table of Contents
 - [API Gateway Project](#api-gateway-project)
@@ -16,7 +16,6 @@ This project is an **API Gateway** built with Node.js, Express, and EJS, providi
     - [3. Service Enabling/Disabling](#3-service-enablingdisabling)
     - [4. Authentication](#4-authentication)
     - [5. Rate Limiting](#5-rate-limiting)
-    - [Testing the Rate Limiting Functionality](#testing-the-rate-limiting-functionality)
   - [Load Balancing Strategies](#load-balancing-strategies)
     - [1. Round Robin](#1-round-robin)
       - [2. Random](#2-random)
@@ -48,7 +47,7 @@ Ensure that you have the following installed:
 1. Clone the repository:
    ```bash
    git clone https://github.com/BeminDawoud/API-Gateway.git
-   cd api-gateway
+   cd API-Gateway
    ```
 
 2. Install dependencies:
@@ -69,7 +68,9 @@ Ensure that you have the following installed:
 ├── routes/               # API routes and registry configuration
 │   ├── index.js          # Main API routes
 │   ├── registry.json     # Registered services
-├── util/                 # Utility functions (load balancers)
+├── util/                 # Utility functions 
+│   ├── loadBalancer.js   # load balancer strategies
+│   ├── rate-limit.js     # Rate limiting
 ├── views/                # EJS view templates
 ├── gateway.js            # Main Express server setup for gateway
 ├── README.md             # Project documentation
@@ -134,7 +135,7 @@ Basic Authentication secures API access. Credentials are checked against the `re
 
 
 ### 5. Rate Limiting
-### Testing the Rate Limiting Functionality
+**Testing the Rate Limiting Functionality**
 
 To test the rate limiting functionality, you can use the following `curl` command to overload the requests:
 

@@ -29,8 +29,8 @@
     },
     "rateLimits": {
         "api": {
-            "requests": 100,
-            "startTime": 1729382940318
+            "requests": 0,
+            "startTime": 1729384987164
         }
     }
 }
